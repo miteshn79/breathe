@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: breath-guide
+    plan: free           # keeps it on Render’s free tier
+    env: node
+    buildCommand: 'npm install && npm run build'
+    startCommand: 'npm start'      # Next.js uses “next start”
