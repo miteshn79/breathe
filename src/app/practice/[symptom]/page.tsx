@@ -9,18 +9,25 @@
  * and the corresponding steps + resources are displayed.
  */
 
-import type { PageProps } from 'next';
 import { notFound } from 'next/navigation';
 
 import { exercises, SymptomKey } from '@/data/exercises';
 import ExerciseStep from '@/components/ExerciseStep';
 
-export default function PracticePage({
+interface PracticePageProps {
+  params: Promise<{ symptom: string }>; // Type params as a Promise for Next.js 15 compatibility
+  // searchParams?: Promise<Record<string, string | string[] | undefined>>; // Uncomment and type as Promise if needed
+}
+
+export default async function PracticePage({
   params,
   /* Next.js includes searchParams in PageProps; we ignore it for now */
-}: PageProps<{ symptom: string }>) {
+}: PracticePageProps) {
+  /* Resolve params since it's a Promise in Next.js 15 */
+  const resolvedParams = await params;
+
   /* Extract the slug from the URL */
-  const slug = params.symptom as SymptomKey;
+  const slug = resolvedParams.symptom as SymptomKey;
 
   /* Look up the exercise data */
   const exercise = exercises[slug];
